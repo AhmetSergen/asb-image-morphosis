@@ -1,0 +1,317 @@
+/* SPDX-License-Identifier: GPL-3.0-or-later */
+
+:root {
+  color-scheme: light dark;
+  --font: system-ui, "Segoe UI", Ubuntu, Cantarell, "Noto Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "Cascadia Mono", "Ubuntu Mono", "DejaVu Sans Mono", Consolas, monospace;
+
+  --bg: #f4f5f9;
+  --surface: #ffffff;
+  --surface-2: #f0f1f6;
+  --hover: #e9eaf3;
+  --border: #dcdee8;
+  --text: #1c1d26;
+  --muted: #646778;
+  --accent: #5b4bf0;
+  --accent-hover: #4a3be0;
+  --accent-soft: #ebe8ff;
+  --on-accent: #ffffff;
+  --success: #138a5e;
+  --success-soft: #def5ea;
+  --warn: #9a6200;
+  --warn-soft: #fff1d6;
+  --danger: #c0352b;
+  --danger-soft: #fde5e3;
+  --focus: 0 0 0 3px rgb(91 75 240 / 35%);
+  --radius: 10px;
+  --radius-sm: 7px;
+  --shadow: 0 1px 2px rgb(0 0 0 / 6%), 0 4px 16px rgb(0 0 0 / 6%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #15161c;
+    --surface: #1e2028;
+    --surface-2: #262833;
+    --hover: #2d303c;
+    --border: #353846;
+    --text: #e8e9f0;
+    --muted: #9a9db0;
+    --accent: #8a7dff;
+    --accent-hover: #9d92ff;
+    --accent-soft: #2c2850;
+    --on-accent: #14121f;
+    --success: #4fd39c;
+    --success-soft: #173a2c;
+    --warn: #f0b955;
+    --warn-soft: #3d2f12;
+    --danger: #ff7b70;
+    --danger-soft: #45201d;
+    --focus: 0 0 0 3px rgb(138 125 255 / 40%);
+    --shadow: 0 1px 2px rgb(0 0 0 / 30%), 0 4px 16px rgb(0 0 0 / 25%);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.4;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow: hidden;
+}
+
+input,
+select,
+textarea {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+svg {
+  flex-shrink: 0;
+}
+
+/* Fieldsets default to min-width: min-content, which lets long paths overflow. */
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+/* ---------- buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--hover);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  font-weight: 600;
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+}
+
+.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+}
+
+.btn.ghost:hover:not(:disabled) {
+  background: var(--hover);
+}
+
+.btn.danger {
+  color: var(--danger);
+}
+
+.btn.small {
+  min-height: 28px;
+  padding: 0 10px;
+  font-size: 13px;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.icon-btn:hover {
+  background: var(--hover);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+/* ---------- form controls ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field > .label,
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+}
+
+input[type="number"] {
+  font-variant-numeric: tabular-nums;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: var(--focus);
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+input[type="range"] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+input[type="color"] {
+  width: 34px;
+  height: 28px;
+  padding: 2px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.mono {
+  font-family: var(--mono);
+  font-size: 12px;
+}
+
+/* Segmented control built from radio buttons. */
+.segmented {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(62px, 1fr));
+  gap: 4px;
+  padding: 4px;
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.segmented label {
+  display: grid;
+  place-items: center;
+  min-height: 30px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--muted);
+}
+
+.segmented label:hover {
+  color: var(--text);
+}
+
+.segmented input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.segmented label.active {
+  background: var(--surface);
+  color: var(--accent);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 12%);
+}
+
+.segmented label.focus {
+  box-shadow: var(--focus);
+}
+
+/* ---------- scrollbars ---------- */
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: 10px;
+  background: var(--border);
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}

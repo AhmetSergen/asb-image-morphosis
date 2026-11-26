@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- SPDX-License-Identifier: GPL-3.0-or-later -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#6d5dfc"/>
+      <stop offset="1" stop-color="#12b3a8"/>
+    </linearGradient>
+    <linearGradient id="photo" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#e8ecff"/>
+    </linearGradient>
+  </defs>
+  <rect x="64" y="64" width="896" height="896" rx="200" fill="url(#bg)"/>
+  <!-- Large "source" picture -->
+  <rect x="190" y="250" width="420" height="360" rx="44" fill="url(#photo)"/>
+  <circle cx="300" cy="350" r="42" fill="#ffc857"/>
+  <path d="M215 580 L345 440 L430 525 L490 465 L585 580 Z" fill="#6d5dfc"/>
+  <!-- Arrow -->
+  <path d="M520 700 C 600 700 650 660 680 600" fill="none" stroke="#ffffff" stroke-width="40" stroke-linecap="round"/>
+  <path d="M640 590 L700 570 L715 635" fill="none" stroke="#ffffff" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Small "result" picture -->
+  <rect x="640" y="640" width="200" height="170" rx="30" fill="url(#photo)"/>
+  <path d="M655 795 L715 730 L755 770 L782 743 L825 795 Z" fill="#12b3a8"/>
+</svg>

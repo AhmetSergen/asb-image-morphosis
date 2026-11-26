@@ -1,0 +1,44 @@
+[package]
+name = "asb-image-morphosis"
+version = "0.1.0"
+description = "Easy batch image converter and resizer"
+authors = ["Ahmet Sergen Boncuk"]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/AhmetSergen/asb-image-morphosis"
+edition = "2021"
+rust-version = "1.80"
+
+[lib]
+# `_lib` suffix avoids a name clash with the binary on Windows.
+name = "asb_image_morphosis_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+image = "0.25.6"
+webp = { version = "0.3", default-features = false }
+rayon = "1"
+walkdir = "2"
+base64 = "0.22"
+thiserror = "2"
+chrono = { version = "0.4", default-features = false, features = ["clock"] }
+
+[dev-dependencies]
+tempfile = "3"
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+strip = true
+
+# Image decoding/resizing is painfully slow unoptimised; speed up dev builds.
+[profile.dev.package."*"]
+opt-level = 3
