@@ -43,6 +43,19 @@
   });
 
   const n = $derived(app.files.length);
+
+  // Brief "done" animation on the Convert button after a fully successful run.
+  let done = $state(false);
+  $effect(() => {
+    const s = app.summary;
+    if (!s || s.cancelled || s.failed > 0 || s.converted === 0) return;
+    done = true;
+    const t = setTimeout(() => (done = false), 1800);
+    return () => {
+      clearTimeout(t);
+      done = false;
+    };
+  });
 </script>
 
 <footer class="bar">
@@ -79,12 +92,17 @@
   {:else}
     <button
       class="btn primary go"
+      class:done
       onclick={() => app.convert()}
       disabled={!!app.blocker}
       title={app.blocker ?? "Convert (Ctrl+Enter)"}
     >
-      Convert {n > 0 ? `${n} image${n === 1 ? "" : "s"}` : ""}
-      <Icon name="arrowRight" />
+      {#if done}
+        <Icon name="check" size={18} /> Done
+      {:else}
+        Convert {n > 0 ? `${n} image${n === 1 ? "" : "s"}` : ""}
+        <Icon name="arrowRight" />
+      {/if}
     </button>
   {/if}
 </footer>
@@ -149,5 +167,56 @@
     min-width: 180px;
     min-height: 40px;
     font-size: 15px;
+  }
+
+  /* ---- "done" animation ---- */
+  .go.done,
+  .go.done:hover:not(:disabled) {
+    border-color: var(--success);
+    background: var(--success);
+    animation:
+      pop 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+      ring 0.9s ease-out;
+  }
+
+  .go.done :global(path) {
+    stroke-dasharray: 24;
+    stroke-dashoffset: 24;
+    animation: draw 0.35s 0.15s ease-out forwards;
+  }
+
+  @keyframes pop {
+    0% {
+      transform: scale(1);
+    }
+    40% {
+      transform: scale(1.07);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  @keyframes ring {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--success) 55%, transparent);
+    }
+    100% {
+      box-shadow: 0 0 0 14px transparent;
+    }
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .go.done,
+    .go.done :global(path) {
+      animation: none;
+      stroke-dashoffset: 0;
+    }
   }
 </style>
