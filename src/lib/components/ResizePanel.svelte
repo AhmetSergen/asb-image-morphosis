@@ -61,7 +61,7 @@
     <div class="chips" aria-label="Common sizes">
       {#each COMMON as px (px)}
         <button
-          class="btn small ghost"
+          class="token"
           onclick={() => {
             app.setDim("width", px);
             app.setDim("height", px);
@@ -82,12 +82,19 @@
   </label>
   <div class="chips">
     {#each PERCENTS as p (p)}
-      <button class="btn small ghost" onclick={() => app.setDim("percent", p)}>{p}%</button>
+      <button class="token" onclick={() => app.setDim("percent", p)}>{p}%</button>
     {/each}
   </div>
 {/if}
 
 <p class="hint">{HINTS[r.mode]}</p>
+
+{#if app.files.length === 1 && app.preview}
+  {@const f = app.files[0]}
+  <p class="result">
+    {f.width}×{f.height} → <strong>{app.preview.width}×{app.preview.height}</strong>
+  </p>
+{/if}
 
 {#if r.mode !== "none"}
   <label class="check">
@@ -97,6 +104,18 @@
 {/if}
 
 <style>
+  .result {
+    margin: -4px 0 0;
+    font-size: 12px;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .result strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
   p {
     margin: 0;
   }
@@ -145,15 +164,6 @@
   .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 2px;
-    margin-top: -4px;
-  }
-
-  .chips .btn {
-    min-height: 24px;
-    padding: 0 8px;
-    font-size: 12px;
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
+    gap: 4px;
   }
 </style>

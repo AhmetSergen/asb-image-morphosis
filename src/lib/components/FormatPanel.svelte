@@ -52,7 +52,7 @@
     <select id="png" bind:value={app.options.pngCompression}>
       <option value="fast">Fast (bigger files)</option>
       <option value="default">Balanced</option>
-      <option value="best">Smallest (slower)</option>
+      <option value="best">Slow (smaller files)</option>
     </select>
   </div>
 {/if}

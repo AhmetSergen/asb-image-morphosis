@@ -7,9 +7,13 @@
   import type { FileItem } from "../types";
   import Icon from "./Icon.svelte";
 
-  let { file, selected }: { file: FileItem; selected: boolean } = $props();
+  let { file }: { file: FileItem } = $props();
 
-  let thumb = $state<string | null | undefined>(undefined);
+  let dot = $derived(file.name.lastIndexOf("."));
+  let stem = $derived(dot > 0 ? file.name.slice(0, dot) : file.name);
+  let extPart = $derived(dot > 0 ? file.name.slice(dot) : "");
+
+  let thumb =$state<string | null | undefined>(undefined);
 
   function showThumb() {
     const hit = cachedThumb(file.path);
@@ -23,16 +27,8 @@
   }
 </script>
 
-<div
-  class="row"
-  class:selected
-  role="option"
-  tabindex="-1"
-  aria-selected={selected}
-  onclick={(e) => app.select(file.path, e)}
-  ondblclick={reveal}
-  onkeydown={(e) => e.key === " " && app.select(file.path, e)}
->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<div class="row" role="listitem" ondblclick={reveal}>
   <div class="thumb" use:whenVisible={showThumb}>
     {#if thumb}
       <img src={thumb} alt="" draggable="false" />
@@ -42,7 +38,7 @@
   </div>
 
   <div class="info">
-    <div class="name" title={file.path}>{file.name}</div>
+    <div class="name" title={file.path}>{stem}<span class="ext">{extPart}</span></div>
     <div class="meta">
       <span class="badge">{file.ext.toUpperCase()}</span>
       {file.width}×{file.height} · {formatBytes(file.sizeBytes)}
@@ -81,7 +77,7 @@
       app.remove([file.path]);
     }}
   >
-    <Icon name="x" size={15} />
+    <Icon name="trash" size={15} />
   </button>
 </div>
 
@@ -100,10 +96,6 @@
 
   .row:hover {
     background: var(--hover);
-  }
-
-  .row.selected {
-    background: var(--accent-soft);
   }
 
   .thumb {
@@ -132,6 +124,10 @@
     font-weight: 500;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .ext {
+    color: var(--accent);
   }
 
   .meta {
@@ -220,7 +216,6 @@
   }
 
   .row:hover .remove,
-  .row.selected .remove,
   .remove:focus-visible {
     opacity: 1;
   }

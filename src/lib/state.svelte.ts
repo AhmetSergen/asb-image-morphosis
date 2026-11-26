@@ -2,7 +2,6 @@
 // App state (Svelte 5 runes). Settings are remembered in localStorage.
 
 import { getCurrentWindow, ProgressBarStatus } from "@tauri-apps/api/window";
-import { SvelteSet } from "svelte/reactivity";
 import * as api from "./api";
 import { formatBytes } from "./format";
 import { BUILT_IN_PRESETS } from "./presets";
@@ -85,9 +84,6 @@ export interface Toast {
 
 class AppState {
   files = $state<FileItem[]>([]);
-  selected = new SvelteSet<string>();
-  /** Last clicked row, for shift-click range selection. */
-  anchor = $state<string | null>(null);
 
   options = $state<ConvertOptions>(load(OPTIONS_KEY, DEFAULT_OPTIONS));
   ui = $state<UiPrefs>(load(UI_KEY, DEFAULT_UI));
@@ -213,12 +209,7 @@ class AppState {
     if (this.running) return;
     const gone = new Set(paths);
     this.files = this.files.filter((f) => !gone.has(f.path));
-    for (const p of gone) this.selected.delete(p);
     this.#reindex();
-  }
-
-  removeSelected() {
-    this.remove([...this.selected]);
   }
 
   removeConverted() {
@@ -229,34 +220,8 @@ class AppState {
   clear() {
     if (this.running) return;
     this.files = [];
-    this.selected.clear();
-    this.anchor = null;
     this.summary = null;
     this.#reindex();
-  }
-
-  select(path: string, e: { ctrlKey: boolean; metaKey: boolean; shiftKey: boolean }) {
-    if (e.shiftKey && this.anchor) {
-      const a = this.files.findIndex((f) => f.path === this.anchor);
-      const b = this.files.findIndex((f) => f.path === path);
-      if (a >= 0 && b >= 0) {
-        if (!(e.ctrlKey || e.metaKey)) this.selected.clear();
-        for (let i = Math.min(a, b); i <= Math.max(a, b); i++) this.selected.add(this.files[i].path);
-        return;
-      }
-    }
-    if (e.ctrlKey || e.metaKey) {
-      if (this.selected.has(path)) this.selected.delete(path);
-      else this.selected.add(path);
-    } else {
-      this.selected.clear();
-      this.selected.add(path);
-    }
-    this.anchor = path;
-  }
-
-  selectAll() {
-    for (const f of this.files) this.selected.add(f.path);
   }
 
   // ---------- settings ----------
@@ -402,7 +367,8 @@ class AppState {
 
   async refreshPreview() {
     const first = this.files[0];
-    if (!first || (this.ui.saveMode === "folder" && !this.ui.folder)) {
+    // Still runs without an output folder: the size part is used by the resize panel.
+    if (!first) {
       this.preview = null;
       this.previewError = null;
       return;

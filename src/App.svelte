@@ -47,11 +47,6 @@
     };
   });
 
-  function isTyping(target: EventTarget | null) {
-    const el = target as HTMLElement | null;
-    return !!el && (el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA");
-  }
-
   function onKeydown(e: KeyboardEvent) {
     const mod = e.ctrlKey || e.metaKey;
     const key = e.key.toLowerCase();
@@ -64,14 +59,6 @@
       app.convert();
     } else if (key === "escape" && app.running) {
       app.cancel();
-    } else if (isTyping(e.target)) {
-      return;
-    } else if ((key === "delete" || key === "backspace") && app.selected.size > 0) {
-      e.preventDefault();
-      app.removeSelected();
-    } else if (mod && key === "a" && app.files.length > 0) {
-      e.preventDefault();
-      app.selectAll();
     }
   }
 </script>

@@ -73,7 +73,7 @@
   </div>
 
   {#if app.running}
-    <button class="btn" onclick={() => app.cancel()} disabled={app.cancelling} title="Stop (Esc)">
+    <button class="btn stop" onclick={() => app.cancel()} disabled={app.cancelling} title="Stop (Esc)">
       <Icon name="stop" /> Cancel
     </button>
   {:else}

@@ -586,6 +586,24 @@ mod tests {
     }
 
     #[test]
+    fn avif_keeps_alpha() {
+        let dir = tempfile::tempdir().unwrap();
+        let src = sample(dir.path());
+        let o = opts(OutputFormat::Avif, dir.path());
+        let Outcome::Done { output, .. } = Batch::new(&o).process(&item(&src), 1).unwrap() else {
+            panic!("skipped");
+        };
+        // We can't decode AVIF, but an alpha plane is stored as an auxiliary image
+        // tagged with this URN in the container.
+        let bytes = fs::read(output).unwrap();
+        let urn = b"urn:mpeg:mpegB:cicp:systems:auxiliary:alpha";
+        assert!(
+            bytes.windows(urn.len()).any(|w| w == urn),
+            "AVIF output has no alpha plane"
+        );
+    }
+
+    #[test]
     fn webp_lossless_and_original_format() {
         let dir = tempfile::tempdir().unwrap();
         let src = sample(dir.path());

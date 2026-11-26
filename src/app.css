@@ -151,6 +151,17 @@ fieldset {
   color: var(--danger);
 }
 
+.btn.stop {
+  border-color: var(--danger);
+  background: var(--danger);
+  color: #fff;
+}
+
+.btn.stop:hover:not(:disabled) {
+  background: var(--danger);
+  filter: brightness(1.1);
+}
+
 .btn.small {
   min-height: 28px;
   padding: 0 10px;
@@ -314,4 +325,21 @@ input[type="color"] {
 
 ::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* Small mono chip, e.g. {name} tokens and scale presets. */
+.token {
+  padding: 2px 6px;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  background: var(--surface-2);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.token:hover {
+  color: var(--accent);
+  border-color: var(--accent);
 }

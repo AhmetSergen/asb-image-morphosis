@@ -37,13 +37,8 @@
           Remove done
         </button>
       {/if}
-      {#if app.selected.size > 0}
-        <button class="btn ghost small" onclick={() => app.removeSelected()} disabled={app.running}>
-          Remove selected ({app.selected.size})
-        </button>
-      {/if}
       <button class="btn ghost small danger" onclick={() => app.clear()} disabled={app.running}>
-        <Icon name="trash" size={14} /> Clear
+        <Icon name="trash" size={14} /> Clear All
       </button>
     {/if}
   </div>
@@ -68,9 +63,9 @@
       </div>
     </div>
   {:else}
-    <div class="list" role="listbox" aria-multiselectable="true" aria-label="Images">
+    <div class="list" role="list" aria-label="Images">
       {#each app.files as file (file.path)}
-        <FileRow {file} selected={app.selected.has(file.path)} />
+        <FileRow {file} />
       {/each}
     </div>
   {/if}

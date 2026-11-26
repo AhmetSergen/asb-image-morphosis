@@ -103,7 +103,7 @@
   </select>
 </div>
 
-{#if app.preview && app.files[0]}
+{#if app.preview && app.files[0] && !(app.ui.saveMode === "folder" && !app.ui.folder)}
   <div class="preview" aria-live="polite">
     <div class="label">Example</div>
     <div class="mono line" title={app.files[0].path}>{app.files[0].name}</div>
@@ -175,22 +175,6 @@
     display: flex;
     flex-wrap: wrap;
     gap: 4px;
-  }
-
-  .token {
-    padding: 2px 6px;
-    border: 1px solid var(--border);
-    border-radius: 5px;
-    background: var(--surface-2);
-    font-family: var(--mono);
-    font-size: 11px;
-    color: var(--muted);
-    cursor: pointer;
-  }
-
-  .token:hover {
-    color: var(--accent);
-    border-color: var(--accent);
   }
 
   .preview {

@@ -47,8 +47,6 @@ Convert and resize many images at once in four steps:
   | <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>O</kbd> | Add folder |
   | <kbd>Ctrl</kbd>+<kbd>Enter</kbd> | Convert |
   | <kbd>Esc</kbd> | Cancel |
-  | <kbd>Delete</kbd> | Remove selected |
-  | <kbd>Ctrl</kbd>+<kbd>A</kbd> | Select all |
 
 ### Supported formats
 
