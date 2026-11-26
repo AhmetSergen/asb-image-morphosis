@@ -60,6 +60,18 @@ Convert and resize many images at once in four steps:
 - Animated GIFs. Only the first frame is converted.
 - Camera RAW, PSD and SVG.
 
+## Built with
+
+| Part | Technologies |
+|---|---|
+| **App framework** | [Tauri 2](https://tauri.app): a small native app that uses the system web view (WebView2 on Windows, WebKitGTK on Linux) |
+| **User interface** | [Svelte 5](https://svelte.dev) (runes), [TypeScript](https://www.typescriptlang.org), [Vite](https://vite.dev) |
+| **Image processing** | [Rust](https://www.rust-lang.org) with the [`image`](https://crates.io/crates/image) crate for decoding, resizing and most encoders |
+| **WebP and AVIF** | [`webp`](https://crates.io/crates/webp) (libwebp) for lossy WebP; [`ravif`](https://crates.io/crates/ravif) / rav1e for AVIF, via `image` |
+| **Parallel work** | [`rayon`](https://crates.io/crates/rayon) to convert several images at once, on all CPU cores but one |
+| **Files and folders** | [`walkdir`](https://crates.io/crates/walkdir) for folder scanning; Tauri's dialog and opener plugins for file pickers and *Show in folder* |
+| **Builds and releases** | GitHub Actions: checks and tests on pull requests and pushes to `main`, and [tauri-action](https://github.com/tauri-apps/tauri-action) to build the Windows and Linux installers |
+
 ## Download
 
 Installers are on the [Releases](https://github.com/AhmetSergen/asb-image-morphosis/releases) page.
